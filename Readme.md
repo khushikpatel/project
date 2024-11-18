@@ -18,7 +18,7 @@ Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/yourusername/project-name.git
+git clone https://github.com/khushikpatel/project.git
 cd project-name
 Set up a virtual environment (optional):
 
