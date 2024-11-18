@@ -78,3 +78,5 @@ Optional Features
 Google Sheets Integration: Synchronize extracted data directly with a Google Sheet.
 Error Handling: Includes retry mechanisms for failed requests and user-friendly error messages.
 Rate-Limiting Management: Prevents exceeding API call limits by managing request rates.
+
+loom video link: https://www.loom.com/share/084a0aa522c54dc28b7a24f90d263993
