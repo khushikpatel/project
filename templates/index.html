@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Extractor Dashboard</title>
+</head>
+<body>
+    <h1>Upload a CSV or Connect Google Sheets</h1>
+    <form id="uploadForm" method="post" enctype="multipart/form-data" action="/upload">
+        <input type="file" name="file" id="file">
+        <input type="submit" value="Upload CSV">
+    </form>
+    <div id="data-preview"></div>
+    <form id="searchForm">
+        <label for="prompt">Prompt Template:</label>
+        <input type="text" id="prompt" value="Get me the email address of {entity}" />
+        
+        <label for="entities">Entities (Comma-separated):</label>
+        <input type="text" id="entities" placeholder="e.g., Google, Microsoft" />
+        
+        <button type="submit">Search</button>
+      </form>
+      
+      <script>
+        document.getElementById('searchForm').onsubmit = async (event) => {
+          event.preventDefault();
+          const prompt = document.getElementById('prompt').value;
+          const entities = document.getElementById('entities').value.split(',').map(e => e.trim());
+      
+          const response = await fetch('/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, entities })
+          });
+      
+          const data = await response.json();
+          console.log(data); // Displays search results and extracted info
+        };
+      </script>
+      <button id="downloadButton">Download CSV</button>
+
+      <script>
+        document.getElementById('downloadButton').onclick = async () => {
+          const response = await fetch('/download', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              data: {
+                "Google": { "extracted_info": "contact@google.com" },
+                "Microsoft": { "extracted_info": "support@microsoft.com" }
+              }
+            })
+          });
+      
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'extracted_data.csv';
+          a.click();
+        };
+      </script>
+            
+</body>
+</html>
